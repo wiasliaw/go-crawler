@@ -2,30 +2,35 @@ package config
 
 import (
 	"log"
-	"regexp"
 
 	"github.com/joho/godotenv"
 )
 
 const (
+	// QueueAmount is the amount of queue
+	QueueAmount int = 4096
+
 	// WorkerAmount is the amount of worker
-	WorkerAmount int = 512
+	WorkerAmount int = 1024
 
 	// BenchmarkTimeout is the time to stop the main.go
-	BenchmarkTimeout int = 180
+	BenchmarkTimeout int = 60
 )
 
 var (
 	// Urls is the start of crawler
 	Urls []string = []string{
-		"https://mobile.dcard.tw",
+		"https://mobile.dcard.tw/f/relationship",
+		"https://mobile.dcard.tw/f/funny",
+		"https://mobile.dcard.tw/f/mood",
+		"https://mobile.dcard.tw/f/food",
+		"https://mobile.dcard.tw/f/makeup",
+		"https://mobile.dcard.tw/f/apple",
+		"https://mobile.dcard.tw/f/girl",
+		"https://www.dcard.tw/f/talk",
+		"https://www.dcard.tw/f/dressup",
+		"https://www.dcard.tw/f/pet",
 	}
-
-	// ReForum is regexp for forum
-	ReForum = regexp.MustCompile(`^/f/[a-z]+(\?latest=true)*$`)
-
-	// RePost is regexp for post
-	RePost = regexp.MustCompile(`^/f/[\d\S]+/p/\d+$`)
 )
 
 func init() {

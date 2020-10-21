@@ -1,6 +1,10 @@
 package queue
 
+import (
+	"go-crawler/db"
+)
+
 // Provider returns queue dependency
-func Provider() *Queue {
-	return New()
+func Provider(d *db.Database) *Queue {
+	return New(d)
 }

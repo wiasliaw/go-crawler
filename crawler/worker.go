@@ -1,15 +1,14 @@
 package crawler
 
 import (
+	"go-crawler/db"
 	"go-crawler/queue"
 
 	"github.com/gocolly/colly"
 )
 
 // New returns worker dependency
-func New(
-	q *queue.Queue,
-) *Worker {
+func New(q *queue.Queue) *Worker {
 	instance := &Worker{
 		queue: q,
 		idle:  make(chan bool, 1),
@@ -26,6 +25,7 @@ type Worker struct {
 	url       string
 	idle      chan bool
 	collector *colly.Collector
+	db        *db.Database
 	queue     *queue.Queue
 }
 

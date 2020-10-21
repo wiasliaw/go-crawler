@@ -1,10 +1,15 @@
 package crawler
 
 import (
-	"go-crawler/config"
 	"log"
+	"regexp"
 
 	"github.com/gocolly/colly"
+)
+
+var (
+	reForum = regexp.MustCompile(`^/f/[a-z]+(\?latest=true)*$`)
+	rePost  = regexp.MustCompile(`^/f/[\d\S]+/p/\d+$`)
 )
 
 func (w *Worker) hook() {
@@ -15,7 +20,7 @@ func (w *Worker) hook() {
 	w.collector.OnHTML("a[href]", func(e *colly.HTMLElement) {
 		link := e.Attr("href")
 		byteLink := []byte(link)
-		if !config.ReForum.Match(byteLink) && !config.RePost.Match(byteLink) {
+		if !reForum.Match(byteLink) && !rePost.Match(byteLink) {
 			return
 		}
 		log.Printf("Link found: %q -> %s\n", e.Text, link)

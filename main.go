@@ -5,6 +5,7 @@ import (
 
 	"go-crawler/config"
 	"go-crawler/crawler"
+	"go-crawler/db"
 	"go-crawler/queue"
 	"go-crawler/utils"
 
@@ -13,6 +14,7 @@ import (
 
 func register(
 	lifecycle fx.Lifecycle,
+	d *db.Database,
 	q *queue.Queue,
 	ws []*crawler.Worker,
 ) {
@@ -29,6 +31,7 @@ func register(
 				return nil
 			},
 			OnStop: func(context.Context) error {
+				d.Close()
 				return nil
 			},
 		},
@@ -37,6 +40,7 @@ func register(
 
 func main() {
 	fx.New(
+		fx.Provide(db.Provider),
 		fx.Provide(queue.Provider),
 		fx.Provide(crawler.Provider),
 		fx.Invoke(register),
