@@ -1,6 +1,6 @@
 package queue
 
 // Provider returns queue dependency
-func Provider() *Queue {
-	return New()
+func Provider(amount int) *Queue {
+	return New(amount)
 }

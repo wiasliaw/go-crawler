@@ -1,13 +1,9 @@
 package queue
 
-import (
-	"go-crawler/config"
-)
-
 // New returns a Queue Reference
-func New() *Queue {
+func New(amount int) *Queue {
 	instance := &Queue{
-		jobs: make(chan string, config.QueueAmount),
+		jobs: make(chan string, amount),
 	}
 	return instance
 }
