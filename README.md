@@ -3,7 +3,7 @@
 ## Prerequisites
 
 * go 1.14
-* docker & docker-compse
+* docker & docker-compose
 
 ## Usage
 
@@ -21,4 +21,4 @@ go run cmd/main.go
 
 ## Framework
 
-- [gocolly/colly](https://github.com/gocolly/colly)
+[gocolly/colly](https://github.com/gocolly/colly)
