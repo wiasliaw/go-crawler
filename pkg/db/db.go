@@ -19,7 +19,10 @@ const (
 		);
 		CREATE UNIQUE INDEX IF NOT EXISTS url_idx ON crawl (url_hash);
 	`
-	insertSQL    string = "INSERT INTO crawl (url_hash) VALUES ('%s');"
+	insertSQL string = `
+		INSERT INTO crawl (url_hash) VALUES ('%s')
+		ON CONFLICT (url_hash) DO NOTHING;
+	`
 	queryAllSQL  string = "SELECT * FROM crawl;"
 	queryByIDSQL string = "SELECT * FROM crawl c WHERE c.url_hash = '%s'"
 )
@@ -68,25 +71,19 @@ func (d *Database) Close() {
 
 // Insert is a function for insert an object into database
 func (d *Database) Insert(urlHash string) {
-	defer func() {
-		if r := recover(); r != nil {
-			log.Println("Cover", r)
-		}
-	}()
-
 	tx, err := d.db.Begin()
 	if err != nil {
-		panic(err)
+		log.Fatalln(err)
 	}
 
 	_, execErr := tx.Exec(fmt.Sprintf(insertSQL, urlHash))
 	if execErr != nil {
 		_ = tx.Rollback()
-		panic(execErr)
+		log.Fatalln(execErr)
 	}
 
 	if err := tx.Commit(); err != nil {
-		panic(err)
+		log.Fatalln(err)
 	}
 }
 

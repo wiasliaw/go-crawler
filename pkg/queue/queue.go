@@ -1,28 +1,28 @@
 package queue
 
-// New returns a Queue Reference
-func New(amount int) *Queue {
-	instance := &Queue{
-		jobs: make(chan string, amount),
-	}
-	return instance
+// Queue type for queue
+type Queue struct {
+	urls chan string
 }
 
-// Queue is a struct
-type Queue struct {
-	jobs chan string
+// New initialize and return Queue's reference
+func New(amount int) *Queue {
+	instance := &Queue{
+		urls: make(chan string, amount),
+	}
+	return instance
 }
 
 // Push an url into queue
 func (q *Queue) Push(url string) {
 	select {
-	case q.jobs <- url:
+	case q.urls <- url:
 	default:
 	}
 }
 
 // Pop an url to worker
 func (q *Queue) Pop() string {
-	url := <-q.jobs
+	url := <-q.urls
 	return url
 }

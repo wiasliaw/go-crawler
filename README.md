@@ -1,6 +1,23 @@
 # go-crawler
 
-A crawler application for Dcard.
+## Prerequisites
+
+* go 1.14
+* docker & docker-compse
+
+## Usage
+
+Run Database
+
+```bash
+docker-compse up -d
+```
+
+Run Crawler
+
+```bash
+go run cmd/main.go
+```
 
 ## Framework
 
